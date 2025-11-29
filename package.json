@@ -1,7 +1,14 @@
 {
-  "name": "chrome-request-manager",
+  "name": "reflow",
   "version": "1.0.0",
   "description": "Chrome extension for managing and modifying HTTP/HTTPS requests",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/holasoymalva/reflow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/holasoymalva/reflow/issues"
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",

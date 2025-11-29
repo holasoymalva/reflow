@@ -1,11 +1,17 @@
-# Chrome Request Manager
+# Reflow
 
 A Chrome extension for managing, modifying, and debugging HTTP/HTTPS requests.
+
+## Repository
+
+**GitHub:** https://github.com/holasoymalva/reflow
+
+For support, bug reports, or feature requests, please open an issue directly on the GitHub repository.
 
 ## Project Structure
 
 ```
-chrome-request-manager/
+reflow/
 ├── src/
 │   ├── background/       # Service worker and background scripts
 │   ├── ui/              # React UI components (popup, options)

@@ -64,75 +64,75 @@
     - **Property 21: Import duplicate detection**
     - **Validates: Requirements 6.3**
 
-- [ ] 4. Implement Rule Engine
-  - [ ] 4.1 Create RuleEngine class with pattern matching logic
+- [x] 4. Implement Rule Engine
+  - [x] 4.1 Create RuleEngine class with pattern matching logic
     - Implement URL pattern matching (regex and wildcard support)
     - Create evaluateRule method to check if request matches rule
     - Implement rule priority sorting
     - _Requirements: 1.2, 1.3, 2.4_
   
-  - [ ] 4.2 Write property test for rule activation state effect
+  - [x] 4.2 Write property test for rule activation state effect
     - **Property 3: Rule activation state effect**
     - **Validates: Requirements 1.3, 1.4**
   
-  - [ ] 4.3 Write property test for rule priority ordering
+  - [x] 4.3 Write property test for rule priority ordering
     - **Property 7: Rule priority ordering**
     - **Validates: Requirements 2.4**
   
-  - [ ] 4.4 Implement header modification logic
+  - [x] 4.4 Implement header modification logic
     - Create applyHeaderModifications method
     - Support set, remove, append operations
     - Add validation for HTTP header names
     - Implement security policy conflict detection
     - _Requirements: 2.1, 2.2, 2.3, 2.5_
   
-  - [ ] 4.5 Write property test for header modification completeness
+  - [x] 4.5 Write property test for header modification completeness
     - **Property 5: Header modification completeness**
     - **Validates: Requirements 2.1, 2.3**
   
-  - [ ] 4.6 Write property test for security conflict handling
+  - [x] 4.6 Write property test for security conflict handling
     - **Property 8: Security conflict handling**
     - **Validates: Requirements 2.5**
   
-  - [ ] 4.7 Implement URL redirection logic
+  - [x] 4.7 Implement URL redirection logic
     - Create applyURLRedirection method
     - Support static URLs and regex-based replacements
     - Preserve request method and body by default
     - Add invalid URL detection and error handling
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
   
-  - [ ] 4.8 Write property test for URL redirection correctness
+  - [x] 4.8 Write property test for URL redirection correctness
     - **Property 9: URL redirection correctness**
     - **Validates: Requirements 3.1, 3.2**
   
-  - [ ] 4.9 Write property test for URL modification invariant preservation
+  - [x] 4.9 Write property test for URL modification invariant preservation
     - **Property 10: URL modification invariant preservation**
     - **Validates: Requirements 3.3**
   
-  - [ ] 4.10 Write property test for invalid URL modification fallback
+  - [x] 4.10 Write property test for invalid URL modification fallback
     - **Property 11: Invalid URL modification fallback**
     - **Validates: Requirements 3.4**
   
-  - [ ] 4.11 Implement body modification logic
+  - [x] 4.11 Implement body modification logic
     - Create applyBodyModification method
     - Support JSON, text, and binary content types
     - Implement JSON path modification
     - Update Content-Length header after modification
     - _Requirements: 4.1, 4.2, 4.3, 4.4_
   
-  - [ ] 4.12 Write property test for body modification application
+  - [x] 4.12 Write property test for body modification application
     - **Property 12: Body modification application**
     - **Validates: Requirements 4.1, 4.2**
   
-  - [ ] 4.13 Write property test for content-length consistency
+  - [x] 4.13 Write property test for content-length consistency
     - **Property 13: Body modification content-length consistency**
     - **Validates: Requirements 4.3**
   
-  - [ ] 4.14 Write property test for JSON path modification precision
+  - [x] 4.14 Write property test for JSON path modification precision
     - **Property 14: JSON path modification precision**
     - **Validates: Requirements 4.4**
   
-  - [ ] 4.15 Convert rules to chrome.declarativeNetRequest format
+  - [x] 4.15 Convert rules to chrome.declarativeNetRequest format
     - Create convertToDeclarativeRules method
     - Map rule actions to declarativeNetRequest actions
     - Handle rules that require webRequest API fallback

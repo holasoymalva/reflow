@@ -102,3 +102,32 @@ export interface ImportResult {
   skippedRules: number;
   errors: string[];
 }
+
+// Validation functions
+export function isValidURLPattern(pattern: string): boolean {
+  // Check if it's a valid wildcard pattern or regex
+  try {
+    // Try to parse as regex
+    new RegExp(pattern);
+    return true;
+  } catch (e) {
+    // If regex fails, check if it's a valid wildcard pattern
+    // Wildcard patterns use * for any characters
+    // Valid wildcard: contains only alphanumeric, *, /, :, ., -, _, ?, &, =
+    const wildcardRegex = /^[a-zA-Z0-9*/:.\-_?&=]+$/;
+    return wildcardRegex.test(pattern);
+  }
+}
+
+export function isValidHeaderName(name: string): boolean {
+  // HTTP header names must follow RFC 7230
+  // Valid characters: alphanumeric, hyphen, underscore
+  // Must not be empty
+  if (!name || name.length === 0) {
+    return false;
+  }
+  
+  // Header names are case-insensitive and consist of alphanumeric characters and hyphens
+  const headerNameRegex = /^[a-zA-Z0-9\-]+$/;
+  return headerNameRegex.test(name);
+}

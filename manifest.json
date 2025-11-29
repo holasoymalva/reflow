@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Request Manager",
+  "name": "Reflow",
   "version": "1.0.0",
   "description": "Manage, modify, and debug HTTP/HTTPS requests with ease",
   "permissions": [

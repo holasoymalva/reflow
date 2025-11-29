@@ -8,17 +8,17 @@
   - Create directory structure: src/{background, ui, storage, rules, logger, types}
   - _Requirements: All_
 
-- [ ] 2. Implement core data models and types
-  - [ ] 2.1 Define TypeScript interfaces for Rule, RuleAction, and all action subtypes
+- [x] 2. Implement core data models and types
+  - [x] 2.1 Define TypeScript interfaces for Rule, RuleAction, and all action subtypes
     - Create types for HeaderModification, URLRedirection, BodyModification, ResponseOverride
     - Define LogEntry, LogFilter, ExtensionConfig interfaces
     - _Requirements: 1.1, 2.1, 3.1, 4.1_
   
-  - [ ] 2.2 Write property test for URL pattern validation
+  - [x] 2.2 Write property test for URL pattern validation
     - **Property 2: URL pattern validation correctness**
     - **Validates: Requirements 1.2**
   
-  - [ ] 2.3 Write property test for header name validation
+  - [x] 2.3 Write property test for header name validation
     - **Property 6: Header name validation correctness**
     - **Validates: Requirements 2.2**
 

@@ -22,45 +22,45 @@
     - **Property 6: Header name validation correctness**
     - **Validates: Requirements 2.2**
 
-- [ ] 3. Implement Storage Manager
-  - [ ] 3.1 Create StorageManager class with chrome.storage.local integration
+- [x] 3. Implement Storage Manager
+  - [x] 3.1 Create StorageManager class with chrome.storage.local integration
     - Implement saveRules, loadRules methods
     - Implement saveConfig, loadConfig methods
     - Implement saveLogs, loadLogs methods with size limits
     - Add error handling for storage quota exceeded
     - _Requirements: 9.1, 9.2, 9.3_
   
-  - [ ] 3.2 Write property test for rule persistence round trip
+  - [x] 3.2 Write property test for rule persistence round trip
     - **Property 1: Rule persistence round trip**
     - **Validates: Requirements 9.1, 9.2**
   
-  - [ ] 3.3 Write property test for storage synchronization timing
+  - [x] 3.3 Write property test for storage synchronization timing
     - **Property 28: Storage synchronization timing**
     - **Validates: Requirements 9.4**
   
-  - [ ] 3.4 Write property test for storage failure resilience
+  - [x] 3.4 Write property test for storage failure resilience
     - **Property 29: Storage failure resilience**
     - **Validates: Requirements 9.3**
   
-  - [ ] 3.5 Implement export and import functionality
+  - [x] 3.5 Implement export and import functionality
     - Create exportData method that generates ExportData JSON
     - Create importData method with validation
     - Add duplicate name detection logic
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
   
-  - [ ] 3.6 Write property test for export completeness
+  - [x] 3.6 Write property test for export completeness
     - **Property 19: Export completeness**
     - **Validates: Requirements 6.1, 6.4**
   
-  - [ ] 3.7 Write property test for import validation
+  - [x] 3.7 Write property test for import validation
     - **Property 20: Import validation and addition**
     - **Validates: Requirements 6.2, 6.5**
   
-  - [ ] 3.8 Write property test for export-import round trip
+  - [x] 3.8 Write property test for export-import round trip
     - **Property 22: Export-import round trip**
     - **Validates: Requirements 6.1, 6.2**
   
-  - [ ] 3.9 Write property test for duplicate detection
+  - [x] 3.9 Write property test for duplicate detection
     - **Property 21: Import duplicate detection**
     - **Validates: Requirements 6.3**
 

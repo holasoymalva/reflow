@@ -114,7 +114,10 @@ export type Message =
   | { type: 'getLogs'; payload: { filter?: LogFilter } }
   | { type: 'clearLogs' }
   | { type: 'exportData' }
-  | { type: 'importData'; payload: { data: ExportData } };
+  | { type: 'importData'; payload: { data: ExportData } }
+  | { type: 'getConfig' }
+  | { type: 'updateConfig'; payload: { config: Partial<ExtensionConfig> } }
+  | { type: 'clearAllData' };
 
 export type Response = 
   | { success: true; data: any }

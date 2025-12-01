@@ -125,6 +125,30 @@ export class UIController {
       payload: { data } 
     });
   }
+
+  /**
+   * Gets the current extension configuration
+   */
+  async getConfig(): Promise<ExtensionConfig> {
+    return this.sendMessage<ExtensionConfig>({ type: 'getConfig' });
+  }
+
+  /**
+   * Updates the extension configuration
+   */
+  async updateConfig(config: Partial<ExtensionConfig>): Promise<void> {
+    return this.sendMessage<void>({ 
+      type: 'updateConfig', 
+      payload: { config } 
+    });
+  }
+
+  /**
+   * Clears all extension data (rules, logs, config)
+   */
+  async clearAllData(): Promise<void> {
+    return this.sendMessage<void>({ type: 'clearAllData' });
+  }
 }
 
 // Export a singleton instance for convenience

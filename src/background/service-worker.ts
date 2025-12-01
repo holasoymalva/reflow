@@ -542,6 +542,61 @@ async function handleMessage(
         return { success: true, data: importResult };
       }
 
+      case 'getConfig': {
+        return { success: true, data: currentConfig };
+      }
+
+      case 'updateConfig': {
+        // Update config
+        currentConfig = {
+          ...currentConfig,
+          ...message.payload.config
+        };
+
+        // Persist config
+        await storageManager.saveConfig(currentConfig);
+
+        // Apply log retention policy if those settings changed
+        if (message.payload.config.logRetentionDays !== undefined || 
+            message.payload.config.maxLogEntries !== undefined) {
+          await logger.applyRetentionPolicy(
+            currentConfig.logRetentionDays,
+            currentConfig.maxLogEntries
+          );
+          await storageManager.saveLogs(logger.getAllLogs());
+        }
+
+        return { success: true, data: currentConfig };
+      }
+
+      case 'clearAllData': {
+        // Clear all rules
+        activeRules = [];
+        await storageManager.saveRules([]);
+
+        // Clear all logs
+        await logger.clearLogs();
+        await storageManager.saveLogs([]);
+
+        // Reset config to defaults
+        currentConfig = {
+          globalPaused: false,
+          logRetentionDays: 7,
+          maxLogEntries: 1000,
+          enableHTTPS: false,
+          theme: 'auto'
+        };
+        await storageManager.saveConfig(currentConfig);
+
+        // Update declarativeNetRequest rules (will remove all)
+        await updateDeclarativeRules();
+
+        // Remove webRequest listeners
+        removeWebRequestListeners();
+
+        return { success: true, data: null };
+      }
+
       default:
         return { success: false, error: 'Unknown message type' };
     }

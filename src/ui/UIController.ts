@@ -5,8 +5,12 @@ import {
   LogEntry, 
   LogFilter, 
   ExportData, 
-  ImportResult 
+  ImportResult,
+  ExtensionConfig,
+  ErrorCode,
+  ExtensionError
 } from '@/types';
+import { errorHandler } from './utils/errorHandler';
 
 /**
  * UIController provides a type-safe wrapper around chrome.runtime.sendMessage
@@ -15,23 +19,47 @@ import {
 export class UIController {
   /**
    * Sends a message to the service worker and returns the response
-   * @throws Error if the message fails or returns an error response
+   * @throws ExtensionError if the message fails or returns an error response
    */
   private async sendMessage<T = any>(message: Message): Promise<T> {
     try {
       const response = await chrome.runtime.sendMessage(message) as Response;
       
       if (!response.success) {
-        throw new Error(response.error || 'Unknown error occurred');
+        const error = errorHandler.createExtensionError(
+          new Error(response.error || 'Unknown error occurred'),
+          ErrorCode.NETWORK_ERROR,
+          response.error || 'Failed to communicate with extension background service.'
+        );
+        errorHandler.handleError(error);
+        throw error;
       }
 
       return response.data as T;
     } catch (error) {
       // Handle chrome.runtime errors
       if (chrome.runtime.lastError) {
-        throw new Error(chrome.runtime.lastError.message);
+        const extensionError = errorHandler.createExtensionError(
+          new Error(chrome.runtime.lastError.message),
+          ErrorCode.NETWORK_ERROR,
+          'Failed to communicate with extension. Please try again.'
+        );
+        errorHandler.handleError(extensionError);
+        throw extensionError;
       }
-      throw error;
+      
+      // If it's already an ExtensionError, just rethrow
+      if (error instanceof ExtensionError) {
+        throw error;
+      }
+      
+      // Wrap other errors
+      const extensionError = errorHandler.createExtensionError(
+        error,
+        ErrorCode.UNKNOWN_ERROR
+      );
+      errorHandler.handleError(extensionError);
+      throw extensionError;
     }
   }
 

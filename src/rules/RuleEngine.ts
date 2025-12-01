@@ -1,4 +1,4 @@
-import { Rule, HeaderModification, URLRedirection, BodyModification } from '../types';
+import { Rule, HeaderModification, URLRedirection, BodyModification, ErrorCode, ExtensionError } from '../types';
 
 export interface RequestInfo {
   url: string;
@@ -171,7 +171,14 @@ export class RuleEngine {
       modified.modifications.push(`Redirected to: ${newURL}`);
     } catch (error) {
       // Invalid URL - log error and keep original
-      modified.modifications.push(`Error: Invalid URL redirection - ${error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      modified.modifications.push(`Error: Invalid URL redirection - ${message}`);
+      console.error(new ExtensionError(
+        `Invalid URL modification: ${message}`,
+        ErrorCode.VALIDATION_ERROR,
+        true,
+        'URL redirection failed due to invalid URL format.'
+      ));
     }
 
     return modified;
@@ -202,7 +209,14 @@ export class RuleEngine {
           break;
       }
     } catch (error) {
-      modified.modifications.push(`Error modifying body: ${error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      modified.modifications.push(`Error modifying body: ${message}`);
+      console.error(new ExtensionError(
+        `Body modification failed: ${message}`,
+        ErrorCode.NETWORK_ERROR,
+        true,
+        'Failed to modify request/response body.'
+      ));
     }
 
     return modified;

@@ -1,5 +1,5 @@
 // Storage Manager implementation
-import { Rule, ExtensionConfig, LogEntry, ExportData, ImportResult } from '@/types';
+import { Rule, ExtensionConfig, LogEntry, ExportData, ImportResult, ErrorCode, ExtensionError } from '@/types';
 
 const STORAGE_KEYS = {
   RULES: 'rules',
@@ -95,9 +95,20 @@ export class StorageManager {
       await this.updateMetadata();
     } catch (error) {
       if (this.isQuotaExceededError(error)) {
-        throw new Error('Storage quota exceeded. Please clear old logs or rules.');
+        throw new ExtensionError(
+          'Storage quota exceeded',
+          ErrorCode.STORAGE_ERROR,
+          true,
+          'Storage limit reached. Please clear old logs or rules to free up space.'
+        );
       }
-      throw new Error(`Failed to save rules: ${error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      throw new ExtensionError(
+        message,
+        ErrorCode.STORAGE_ERROR,
+        true,
+        'Failed to save rules. Please try again.'
+      );
     }
   }
 
@@ -129,9 +140,20 @@ export class StorageManager {
       await this.updateMetadata();
     } catch (error) {
       if (this.isQuotaExceededError(error)) {
-        throw new Error('Storage quota exceeded.');
+        throw new ExtensionError(
+          'Storage quota exceeded',
+          ErrorCode.STORAGE_ERROR,
+          true,
+          'Storage limit reached. Please clear old data to free up space.'
+        );
       }
-      throw new Error(`Failed to save config: ${error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      throw new ExtensionError(
+        message,
+        ErrorCode.STORAGE_ERROR,
+        true,
+        'Failed to save configuration. Please try again.'
+      );
     }
   }
 
@@ -170,9 +192,20 @@ export class StorageManager {
           timestamp: log.timestamp.toISOString()
         }));
         await this.storage.set({ [STORAGE_KEYS.LOGS]: serializedLogs });
-        throw new Error('Storage quota exceeded. Logs have been reduced.');
+        throw new ExtensionError(
+          'Storage quota exceeded',
+          ErrorCode.STORAGE_ERROR,
+          true,
+          'Storage limit reached. Logs have been automatically reduced. Consider clearing old logs.'
+        );
       }
-      throw new Error(`Failed to save logs: ${error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      throw new ExtensionError(
+        message,
+        ErrorCode.STORAGE_ERROR,
+        true,
+        'Failed to save logs. Please try again.'
+      );
     }
   }
 
@@ -268,7 +301,13 @@ export class StorageManager {
     try {
       await this.storage.clear();
     } catch (error) {
-      throw new Error(`Failed to clear storage: ${error}`);
+      const message = error instanceof Error ? error.message : String(error);
+      throw new ExtensionError(
+        message,
+        ErrorCode.STORAGE_ERROR,
+        true,
+        'Failed to clear extension data. Please try again.'
+      );
     }
   }
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import { LogEntry, LogFilter } from '@/types';
 import { UIController } from './UIController';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { ToastContainer } from './components/Toast';
 
 const uiController = new UIController();
 
@@ -797,5 +799,10 @@ const styles = {
 const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
-  root.render(<Panel />);
+  root.render(
+    <ErrorBoundary>
+      <ToastContainer />
+      <Panel />
+    </ErrorBoundary>
+  );
 }

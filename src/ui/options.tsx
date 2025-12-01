@@ -4,6 +4,8 @@ import { useRules } from './hooks/useRules';
 import { useLogs } from './hooks/useLogs';
 import { Rule, LogEntry, LogFilter, ExtensionConfig } from '@/types';
 import { formatDate, getMethodColor, getStatusColor } from './utils/formatting';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { ToastContainer } from './components/Toast';
 
 type TabType = 'rules' | 'logs' | 'settings';
 
@@ -48,9 +50,21 @@ const Options: React.FC = () => {
       </nav>
 
       <main style={styles.main}>
-        {activeTab === 'rules' && <RulesTab />}
-        {activeTab === 'logs' && <LogsTab />}
-        {activeTab === 'settings' && <SettingsTab />}
+        {activeTab === 'rules' && (
+          <ErrorBoundary>
+            <RulesTab />
+          </ErrorBoundary>
+        )}
+        {activeTab === 'logs' && (
+          <ErrorBoundary>
+            <LogsTab />
+          </ErrorBoundary>
+        )}
+        {activeTab === 'settings' && (
+          <ErrorBoundary>
+            <SettingsTab />
+          </ErrorBoundary>
+        )}
       </main>
     </div>
   );
@@ -1887,5 +1901,10 @@ const styles = {
 const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
-  root.render(<Options />);
+  root.render(
+    <ErrorBoundary>
+      <ToastContainer />
+      <Options />
+    </ErrorBoundary>
+  );
 }

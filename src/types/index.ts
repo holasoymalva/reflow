@@ -123,6 +123,28 @@ export type Response =
   | { success: true; data: any }
   | { success: false; error: string };
 
+// Error handling types
+export enum ErrorCode {
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  STORAGE_ERROR = 'STORAGE_ERROR',
+  PERMISSION_ERROR = 'PERMISSION_ERROR',
+  NETWORK_ERROR = 'NETWORK_ERROR',
+  IMPORT_ERROR = 'IMPORT_ERROR',
+  UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+}
+
+export class ExtensionError extends Error {
+  constructor(
+    message: string,
+    public code: ErrorCode,
+    public recoverable: boolean,
+    public userMessage: string
+  ) {
+    super(message);
+    this.name = 'ExtensionError';
+  }
+}
+
 // Validation functions
 export function isValidURLPattern(pattern: string): boolean {
   // Check if it's a valid wildcard pattern or regex

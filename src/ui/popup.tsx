@@ -4,6 +4,8 @@ import { useRules } from './hooks/useRules';
 import { useGlobalPause } from './hooks/useGlobalPause';
 import { useLogs } from './hooks/useLogs';
 import { Rule } from '@/types';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { ToastContainer } from './components/Toast';
 
 const RuleListItem: React.FC<{ rule: Rule; onToggle: (id: string, enabled: boolean) => void }> = ({ rule, onToggle }) => {
   return (
@@ -137,18 +139,27 @@ const RecentLogs: React.FC = () => {
 
 const Popup: React.FC = () => {
   return (
-    <div style={styles.container}>
-      <header style={styles.header}>
-        <h1 style={styles.title}>Chrome Request Manager</h1>
-      </header>
-      <main style={styles.main}>
-        <GlobalPauseButton />
-        <div style={styles.divider} />
-        <RuleList />
-        <div style={styles.divider} />
-        <RecentLogs />
-      </main>
-    </div>
+    <ErrorBoundary>
+      <ToastContainer />
+      <div style={styles.container}>
+        <header style={styles.header}>
+          <h1 style={styles.title}>Chrome Request Manager</h1>
+        </header>
+        <main style={styles.main}>
+          <ErrorBoundary>
+            <GlobalPauseButton />
+          </ErrorBoundary>
+          <div style={styles.divider} />
+          <ErrorBoundary>
+            <RuleList />
+          </ErrorBoundary>
+          <div style={styles.divider} />
+          <ErrorBoundary>
+            <RecentLogs />
+          </ErrorBoundary>
+        </main>
+      </div>
+    </ErrorBoundary>
   );
 };
 

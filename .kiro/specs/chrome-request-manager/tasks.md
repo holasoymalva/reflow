@@ -331,13 +331,13 @@
     - Handle duplicate name conflicts with user prompts
     - _Requirements: 6.1, 6.2, 6.3_
 
-- [ ] 11. Implement DevTools Panel (optional enhancement)
-  - [ ] 11.1 Create devtools panel HTML and React root
+- [x] 11. Implement DevTools Panel (optional enhancement)
+  - [x] 11.1 Create devtools panel HTML and React root
     - Set up devtools.html and panel.html
     - Register panel in manifest.json
     - _Requirements: 5.3_
   
-  - [ ] 11.2 Implement advanced log viewer
+  - [x] 11.2 Implement advanced log viewer
     - Display logs with detailed request/response information
     - Add advanced filtering and search
     - Show request/response headers and bodies

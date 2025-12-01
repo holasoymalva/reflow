@@ -280,31 +280,31 @@
     - Add link to full log viewer in options page
     - _Requirements: 5.3_
 
-- [ ] 10. Implement Options Page UI
-  - [ ] 10.1 Create options page HTML and React root
+- [x] 10. Implement Options Page UI
+  - [x] 10.1 Create options page HTML and React root
     - Set up options.html with React mount point
     - Create tabbed interface (Rules, Logs, Settings)
     - _Requirements: 7.1, 7.2, 7.3_
   
-  - [ ] 10.2 Implement Rules tab with full CRUD
+  - [x] 10.2 Implement Rules tab with full CRUD
     - Display all rules in a table/list
     - Add "Create New Rule" button
     - Add edit and delete buttons for each rule
     - Implement rule detail modal/panel
     - _Requirements: 7.1, 7.2_
   
-  - [ ] 10.3 Create rule editor form
+  - [x] 10.3 Create rule editor form
     - Add form fields for rule name, URL pattern, priority, action type
     - Create conditional fields based on action type (headers, URL, body)
     - Implement real-time pattern syntax validation
     - Add save and cancel buttons
     - _Requirements: 7.3, 7.4, 7.5_
   
-  - [ ] 10.4 Write property test for rule save validation
+  - [x] 10.4 Write property test for rule save validation
     - **Property 24: Rule save validation**
     - **Validates: Requirements 7.4**
   
-  - [ ] 10.5 Implement Logs tab
+  - [x] 10.5 Implement Logs tab
     - Display all logs in a table with columns: timestamp, URL, method, status, rules applied
     - Add filter controls (URL pattern, method, status code, date range)
     - Implement log detail view showing full headers and modifications
@@ -312,7 +312,7 @@
     - Add export logs button
     - _Requirements: 5.3, 5.4_
   
-  - [ ] 10.6 Implement Settings tab
+  - [x] 10.6 Implement Settings tab
     - Add log retention period setting
     - Add max log entries setting
     - Add HTTPS interception toggle
@@ -320,11 +320,11 @@
     - Add clear all extension data button
     - _Requirements: 5.5, 8.5, 9.5_
   
-  - [ ] 10.7 Write property test for extension data clear
+  - [x] 10.7 Write property test for extension data clear
     - **Property 30: Extension data clear completeness**
     - **Validates: Requirements 9.5**
   
-  - [ ] 10.8 Implement import/export UI
+  - [x] 10.8 Implement import/export UI
     - Add "Export Rules" button that downloads JSON file
     - Add "Import Rules" button with file picker
     - Show import results (success count, skipped count, errors)

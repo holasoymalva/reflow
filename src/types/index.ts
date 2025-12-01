@@ -103,6 +103,26 @@ export interface ImportResult {
   errors: string[];
 }
 
+// Message protocol types for UI-to-background communication
+export type Message = 
+  | { type: 'getRules' }
+  | { type: 'createRule'; payload: Omit<Rule, 'id' | 'createdAt' | 'modifiedAt'> }
+  | { type: 'updateRule'; payload: { id: string; updates: Partial<Rule> } }
+  | { type: 'deleteRule'; payload: { id: string } }
+  | { type: 'toggleRule'; payload: { id: string; enabled: boolean } }
+  | { type: 'toggleGlobalPause'; payload: { paused: boolean } }
+  | { type: 'getLogs'; payload: { filter?: LogFilter } }
+  | { type: 'clearLogs' }
+  | { type: 'exportData' }
+  | { type: 'importData'; payload: { data: ExportData } }
+  | { type: 'getConfig' }
+  | { type: 'updateConfig'; payload: { config: Partial<ExtensionConfig> } }
+  | { type: 'clearAllData' };
+
+export type Response = 
+  | { success: true; data: any }
+  | { success: false; error: string };
+
 // Validation functions
 export function isValidURLPattern(pattern: string): boolean {
   // Check if it's a valid wildcard pattern or regex

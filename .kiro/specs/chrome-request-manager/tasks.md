@@ -253,28 +253,28 @@
     - Add error handling and type safety
     - _Requirements: 1.1, 1.3, 1.4, 5.3, 10.1_
 
-- [ ] 9. Implement Popup UI
-  - [ ] 9.1 Create popup HTML and React root
+- [x] 9. Implement Popup UI
+  - [x] 9.1 Create popup HTML and React root
     - Set up popup.html with React mount point
     - Create Popup component structure
     - _Requirements: 7.1_
   
-  - [ ] 9.2 Implement rule list display
+  - [x] 9.2 Implement rule list display
     - Fetch rules from background on popup open
     - Display all rules with name, status (enabled/disabled), and toggle switch
     - Add visual indicators for active rules
     - _Requirements: 7.1_
   
-  - [ ] 9.3 Write property test for rule list display completeness
+  - [x] 9.3 Write property test for rule list display completeness
     - **Property 23: Rule list display completeness**
     - **Validates: Requirements 7.1**
   
-  - [ ] 9.4 Add global pause toggle button
+  - [x] 9.4 Add global pause toggle button
     - Create prominent pause/resume button
     - Update UI state when pause state changes
     - _Requirements: 10.1, 10.2_
   
-  - [ ] 9.5 Add quick access to recent logs
+  - [x] 9.5 Add quick access to recent logs
     - Display last 10 log entries
     - Show URL, method, status, and applied rules
     - Add link to full log viewer in options page

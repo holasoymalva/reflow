@@ -240,14 +240,14 @@
 - [x] 7. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Build UI components foundation
-  - [ ] 8.1 Set up React with TypeScript
+- [x] 8. Build UI components foundation
+  - [x] 8.1 Set up React with TypeScript
     - Configure React build pipeline
     - Create shared UI utilities and hooks
     - Set up chrome.runtime.sendMessage wrapper for UI-to-background communication
     - _Requirements: 7.1, 7.2, 7.3, 7.4_
   
-  - [ ] 8.2 Create UIController utility class
+  - [x] 8.2 Create UIController utility class
     - Implement sendMessage wrapper
     - Create methods for all message types (createRule, updateRule, etc.)
     - Add error handling and type safety

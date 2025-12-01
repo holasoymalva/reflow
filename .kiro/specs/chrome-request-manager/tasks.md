@@ -178,34 +178,34 @@
     - **Property 18: Log retention policy enforcement**
     - **Validates: Requirements 5.5**
 
-- [ ] 6. Implement Service Worker (Background Script)
-  - [ ] 6.1 Create service worker entry point
+- [x] 6. Implement Service Worker (Background Script)
+  - [x] 6.1 Create service worker entry point
     - Set up chrome.runtime event listeners (onInstalled, onStartup)
     - Initialize StorageManager, RuleEngine, Logger instances
     - Load persisted rules and config on startup
     - _Requirements: 9.2_
   
-  - [ ] 6.2 Implement declarativeNetRequest integration
+  - [x] 6.2 Implement declarativeNetRequest integration
     - Register dynamic rules using chrome.declarativeNetRequest.updateDynamicRules
     - Handle rule updates when user creates/modifies rules
     - Set up onRuleMatchedDebug listener for logging
     - _Requirements: 1.1, 1.3, 2.1, 3.1, 4.1_
   
-  - [ ] 6.3 Implement webRequest API fallback for complex rules
+  - [x] 6.3 Implement webRequest API fallback for complex rules
     - Set up chrome.webRequest listeners for rules requiring dynamic inspection
     - Handle body modifications that can't use declarativeNetRequest
     - Implement HTTPS request interception
     - _Requirements: 4.1, 8.1_
   
-  - [ ] 6.4 Write property test for HTTPS request interception
+  - [x] 6.4 Write property test for HTTPS request interception
     - **Property 25: HTTPS request interception**
     - **Validates: Requirements 8.1**
   
-  - [ ] 6.5 Write property test for HTTPS modification failure logging
+  - [x] 6.5 Write property test for HTTPS modification failure logging
     - **Property 27: HTTPS modification failure logging**
     - **Validates: Requirements 8.4**
   
-  - [ ] 6.6 Implement message passing protocol
+  - [x] 6.6 Implement message passing protocol
     - Create handleMessage function for UI communication
     - Handle getRules, createRule, updateRule, deleteRule, toggleRule messages
     - Handle toggleGlobalPause, getLogs, clearLogs messages
@@ -213,27 +213,27 @@
     - Return appropriate Response objects
     - _Requirements: 1.1, 1.3, 1.4, 5.3, 6.1, 6.2, 10.1, 10.2_
   
-  - [ ] 6.7 Implement global pause functionality
+  - [x] 6.7 Implement global pause functionality
     - Add global pause state management
     - Disable rule application when paused
     - Continue logging with "unmodified" marker during pause
     - Persist pause state to storage
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
   
-  - [ ] 6.8 Write property test for global pause effectiveness
+  - [x] 6.8 Write property test for global pause effectiveness
     - **Property 31: Global pause effectiveness**
     - **Validates: Requirements 10.1, 10.3**
   
-  - [ ] 6.9 Write property test for global pause state persistence
+  - [x] 6.9 Write property test for global pause state persistence
     - **Property 32: Global pause state persistence**
     - **Validates: Requirements 10.4, 10.5**
   
-  - [ ] 6.10 Implement rule name uniqueness validation
+  - [x] 6.10 Implement rule name uniqueness validation
     - Add validation in createRule handler
     - Check for duplicate names before adding new rules
     - _Requirements: 1.5_
   
-  - [ ] 6.11 Write property test for rule name uniqueness
+  - [x] 6.11 Write property test for rule name uniqueness
     - **Property 4: Rule name uniqueness enforcement**
     - **Validates: Requirements 1.5**
 

@@ -371,7 +371,7 @@
     - Handle permission denial gracefully
     - _Requirements: 8.5_
 
-- [ ] 14. Final checkpoint - Ensure all tests pass
+- [x] 14. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 15. Build and packaging

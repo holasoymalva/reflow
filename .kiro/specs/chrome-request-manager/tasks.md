@@ -357,15 +357,15 @@
     - Log errors to background script
     - _Requirements: 9.3_
 
-- [ ] 13. Add Chrome permissions and manifest configuration
-  - [ ] 13.1 Configure manifest.json permissions
+- [x] 13. Add Chrome permissions and manifest configuration
+  - [x] 13.1 Configure manifest.json permissions
     - Add declarativeNetRequest, declarativeNetRequestWithHostAccess permissions
     - Add webRequest, webRequestBlocking permissions (for fallback)
     - Add storage permission
     - Add host permissions for <all_urls>
     - _Requirements: 1.1, 2.1, 3.1, 4.1, 8.1, 8.5, 9.1_
   
-  - [ ] 13.2 Implement permission request flow
+  - [x] 13.2 Implement permission request flow
     - Check for required permissions on extension startup
     - Request additional permissions when user enables HTTPS interception
     - Handle permission denial gracefully

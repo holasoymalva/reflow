@@ -3,6 +3,11 @@ import { StorageManager } from '../storage/StorageManager';
 import { RuleEngine } from '../rules/RuleEngine';
 import { Logger } from '../logger/Logger';
 import { Rule, ExtensionConfig } from '../types';
+import { 
+  checkRequiredPermissions, 
+  hasHTTPSPermissions, 
+  setupPermissionListener 
+} from './permissions';
 
 // Global instances
 let storageManager: StorageManager;
@@ -32,6 +37,14 @@ chrome.runtime.onStartup.addListener(async () => {
  */
 async function initialize(): Promise<void> {
   try {
+    // Check required permissions
+    const permissions = await checkRequiredPermissions();
+    console.log('Permission check:', permissions);
+    
+    if (!permissions.hasBasic) {
+      console.error('Missing basic permissions. Extension may not function correctly.');
+    }
+    
     // Initialize managers
     storageManager = new StorageManager();
     ruleEngine = new RuleEngine();
@@ -40,6 +53,27 @@ async function initialize(): Promise<void> {
     // Load persisted configuration
     currentConfig = await storageManager.loadConfig();
     console.log('Loaded config:', currentConfig);
+    
+    // Check if HTTPS is enabled but permissions are missing
+    if (currentConfig.enableHTTPS && !permissions.hasHTTPS) {
+      console.warn('HTTPS interception is enabled but permissions are missing. Disabling HTTPS.');
+      currentConfig.enableHTTPS = false;
+      await storageManager.saveConfig(currentConfig);
+    }
+    
+    // Set up permission change listener
+    setupPermissionListener(async (hasHTTPS) => {
+      console.log('Permission changed. HTTPS permissions:', hasHTTPS);
+      
+      // If HTTPS permissions were removed, disable HTTPS in config
+      if (!hasHTTPS && currentConfig.enableHTTPS) {
+        currentConfig.enableHTTPS = false;
+        await storageManager.saveConfig(currentConfig);
+        
+        // Remove webRequest listeners
+        removeWebRequestListeners();
+      }
+    });
 
     // Load persisted rules
     activeRules = await storageManager.loadRules();
@@ -355,11 +389,16 @@ type Message =
   | { type: 'getLogs'; payload: { filter?: any } }
   | { type: 'clearLogs' }
   | { type: 'exportData' }
-  | { type: 'importData'; payload: { data: any } };
+  | { type: 'importData'; payload: { data: any } }
+  | { type: 'getConfig' }
+  | { type: 'updateConfig'; payload: { config: Partial<ExtensionConfig> } }
+  | { type: 'clearAllData' }
+  | { type: 'requestHTTPSPermissions' }
+  | { type: 'checkPermissions' };
 
 type Response = 
   | { success: true; data: any }
-  | { success: false; error: string };
+  | { success: false; error: string; code?: string };
 
 /**
  * Handle messages from UI
@@ -547,6 +586,23 @@ async function handleMessage(
       }
 
       case 'updateConfig': {
+        // Check if HTTPS is being enabled
+        const enablingHTTPS = message.payload.config.enableHTTPS === true && 
+                              !currentConfig.enableHTTPS;
+        
+        if (enablingHTTPS) {
+          // Check if we have HTTPS permissions
+          const hasHTTPS = await hasHTTPSPermissions();
+          
+          if (!hasHTTPS) {
+            return { 
+              success: false, 
+              error: 'HTTPS permissions required. Please grant permissions first.',
+              code: 'PERMISSION_REQUIRED'
+            };
+          }
+        }
+        
         // Update config
         currentConfig = {
           ...currentConfig,
@@ -564,6 +620,13 @@ async function handleMessage(
             currentConfig.maxLogEntries
           );
           await storageManager.saveLogs(logger.getAllLogs());
+        }
+        
+        // Set up or remove webRequest listeners based on HTTPS setting
+        if (currentConfig.enableHTTPS && needsWebRequestFallback()) {
+          setupWebRequestListeners();
+        } else if (!currentConfig.enableHTTPS) {
+          removeWebRequestListeners();
         }
 
         return { success: true, data: currentConfig };
@@ -595,6 +658,43 @@ async function handleMessage(
         removeWebRequestListeners();
 
         return { success: true, data: null };
+      }
+
+      case 'requestHTTPSPermissions': {
+        // Import the function dynamically to avoid circular dependencies
+        const { requestHTTPSPermissions } = await import('./permissions');
+        const granted = await requestHTTPSPermissions();
+        
+        if (granted) {
+          // Update config to enable HTTPS
+          currentConfig.enableHTTPS = true;
+          await storageManager.saveConfig(currentConfig);
+          
+          // Set up webRequest listeners if needed
+          if (needsWebRequestFallback()) {
+            setupWebRequestListeners();
+          }
+          
+          return { success: true, data: { granted: true } };
+        } else {
+          return { 
+            success: false, 
+            error: 'HTTPS permissions were denied. Please grant permissions to enable HTTPS interception.' 
+          };
+        }
+      }
+
+      case 'checkPermissions': {
+        const permissions = await checkRequiredPermissions();
+        const hasHTTPS = await hasHTTPSPermissions();
+        
+        return { 
+          success: true, 
+          data: { 
+            hasBasic: permissions.hasBasic,
+            hasHTTPS: hasHTTPS
+          } 
+        };
       }
 
       default:

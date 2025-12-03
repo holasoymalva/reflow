@@ -117,11 +117,13 @@ export type Message =
   | { type: 'importData'; payload: { data: ExportData } }
   | { type: 'getConfig' }
   | { type: 'updateConfig'; payload: { config: Partial<ExtensionConfig> } }
-  | { type: 'clearAllData' };
+  | { type: 'clearAllData' }
+  | { type: 'requestHTTPSPermissions' }
+  | { type: 'checkPermissions' };
 
 export type Response = 
   | { success: true; data: any }
-  | { success: false; error: string };
+  | { success: false; error: string; code?: string };
 
 // Error handling types
 export enum ErrorCode {

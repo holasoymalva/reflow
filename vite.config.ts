@@ -12,6 +12,25 @@ export default defineConfig({
       closeBundle() {
         copyFileSync('manifest.json', 'dist/manifest.json');
         
+        // Copy icons if they exist
+        const iconsPath = join(__dirname, 'icons');
+        const distIconsPath = join(__dirname, 'dist', 'icons');
+        
+        if (existsSync(iconsPath)) {
+          if (!existsSync(distIconsPath)) {
+            mkdirSync(distIconsPath, { recursive: true });
+          }
+          
+          const iconFiles = ['icon16.png', 'icon48.png', 'icon128.png'];
+          iconFiles.forEach(iconFile => {
+            const srcIcon = join(iconsPath, iconFile);
+            const destIcon = join(distIconsPath, iconFile);
+            if (existsSync(srcIcon)) {
+              copyFileSync(srcIcon, destIcon);
+            }
+          });
+        }
+        
         // Move HTML files from dist/src/ui to dist root and fix paths
         const srcUiPath = join(__dirname, 'dist', 'src', 'ui');
         const distPath = join(__dirname, 'dist');
@@ -56,8 +75,14 @@ export default defineConfig({
         assetFileNames: '[name].[ext]'
       }
     },
-    minify: false,
-    sourcemap: true
+    // Production optimizations
+    minify: process.env.NODE_ENV === 'production' ? 'esbuild' : false,
+    sourcemap: process.env.NODE_ENV === 'production' ? 'hidden' : true,
+    target: 'es2020',
+    // Optimize chunk size
+    chunkSizeWarningLimit: 1000,
+    // Enable tree-shaking
+    reportCompressedSize: true
   },
   resolve: {
     alias: {

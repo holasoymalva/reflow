@@ -37,8 +37,14 @@ npm install
 
 ### Build
 
+Development build:
 ```bash
 npm run build
+```
+
+Production build (optimized and minified):
+```bash
+npm run build:prod
 ```
 
 ### Development Mode (Watch)
@@ -59,6 +65,12 @@ npm test
 npm run type-check
 ```
 
+### Verify Build
+
+```bash
+npm run verify
+```
+
 ## Loading the Extension
 
 1. Build the extension: `npm run build`
@@ -66,6 +78,29 @@ npm run type-check
 3. Enable "Developer mode"
 4. Click "Load unpacked"
 5. Select the `dist` folder
+
+## Packaging for Distribution
+
+To create a distributable ZIP package:
+
+```bash
+npm run package
+```
+
+This will:
+1. Create an optimized production build
+2. Verify all required files are present
+3. Generate a ZIP file in the `packages/` directory
+
+The resulting `reflow-v1.0.0.zip` can be:
+- Uploaded to the Chrome Web Store
+- Distributed to users for manual installation
+- Shared with team members for testing
+
+For detailed build and installation instructions, see:
+- `BUILD.md` - Build configuration and instructions
+- `INSTALLATION.md` - Installation guide for end users
+- `TESTING_CHECKLIST.md` - Comprehensive testing procedures
 
 ## Testing
 
